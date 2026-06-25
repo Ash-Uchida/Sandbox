@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LexCursor | Workspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --surface: #f8f9ff;
+    --surface-container: #e5eeff;
+    --surface-container-high: #dce9ff;
+    --on-surface: #0b1c30;
+    --on-surface-variant: #434655;
+    --primary: #0037b0;
+    --outline-variant: #c4c5d7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: var(--surface);
+    color: var(--on-surface);
+    min-height: 100vh;
+    padding: 48px 24px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  h1 {
+    font-family: "Hanken Grotesk", sans-serif;
+    font-weight: 800;
+    font-size: 2.25rem;
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+  }
+  p.sub { color: var(--on-surface-variant); margin: 0 0 40px; font-size: 1.05rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  a.card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--surface-container);
+    border: 1px solid var(--outline-variant);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  a.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 55, 176, 0.18);
+  }
+  .thumb {
+    aspect-ratio: 16 / 10;
+    background: var(--surface-container-high);
+    overflow: hidden;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .body { padding: 18px 20px 22px; }
+  .body h2 {
+    font-family: "Hanken Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin: 0 0 4px;
+  }
+  .body span { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>LexCursor Legal AI Workspace</h1>
+  <p class="sub">Compiled design screens. Click any card to open the full view.</p>
+  <div class="grid">
+    <a class="card" href="project_dashboard/code.html">
+      <div class="thumb"><img src="project_dashboard/screen.png" alt="Project Dashboard" /></div>
+      <div class="body"><h2>Project Dashboard</h2><span>Open view &rarr;</span></div>
+    </a>
+    <a class="card" href="split_screen_editor/code.html">
+      <div class="thumb"><img src="split_screen_editor/screen.png" alt="Split Screen Editor" /></div>
+      <div class="body"><h2>Split Screen Editor</h2><span>Open view &rarr;</span></div>
+    </a>
+    <a class="card" href="compliance_linter/code.html">
+      <div class="thumb"><img src="compliance_linter/screen.png" alt="Compliance Linter" /></div>
+      <div class="body"><h2>Compliance Linter</h2><span>Open view &rarr;</span></div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
