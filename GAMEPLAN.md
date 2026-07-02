@@ -35,13 +35,13 @@ You can change these later, but decide now so the phases below line up.
 
 Goal: turn the static files into a real app project.
 
-- [ ] Initialize a Next.js app (`npx create-next-app@latest`).
-- [ ] Move the 3 screens into pages/routes (`/dashboard`, `/editor`, `/linter`).
-- [ ] Convert shared sidebar into a reusable component.
-- [ ] Port the Tailwind config (you already have a full theme in the HTML files).
-- [ ] Verify it runs with `npm run dev` on localhost.
+- [x] Initialize a Next.js app (`npx create-next-app@latest`).
+- [x] Move the 3 screens into pages/routes (`/dashboard`, `/editor`, `/linter`).
+- [x] Convert shared sidebar into a reusable component.
+- [x] Port the Tailwind config (you already have a full theme in the HTML files).
+- [x] Verify it runs with `npm run dev` on localhost.
 
-**Done when:** all 3 screens render as routes and the sidebar navigates between them.
+**Done when:** all 3 screens render as routes and the sidebar navigates between them. ✅ **DONE**
 
 ---
 
@@ -49,14 +49,14 @@ Goal: turn the static files into a real app project.
 
 Goal: a place to store data and handle requests.
 
-- [ ] Decide: Next.js API routes (simplest) vs a separate Node/Express service.
-- [ ] Set up the database (Supabase/Neon Postgres).
-- [ ] Add an ORM (**Prisma** recommended) and define initial schema
-      (e.g. `User`, `Contract`, `ComplianceResult`).
-- [ ] Create a few basic API endpoints (list contracts, get one, etc.).
-- [ ] Wire one screen (Dashboard) to real data instead of hardcoded HTML.
+- [x] Decide: Next.js API routes (simplest) vs a separate Node/Express service. → **Next.js API routes**
+- [x] Set up the database (Supabase/Neon Postgres). → **Neon Postgres**
+- [x] Add an ORM (**Prisma** recommended) and define initial schema
+      (e.g. `User`, `Contract`, `ComplianceResult`). → `users`, `contracts` migrated
+- [x] Create a few basic API endpoints (list contracts, get one, etc.). → `/api/contracts`, `/api/contracts/stats`
+- [x] Wire one screen (Dashboard) to real data instead of hardcoded HTML.
 
-**Done when:** the dashboard loads data from the database through an API.
+**Done when:** the dashboard loads data from the database through an API. ✅ **DONE**
 
 ---
 

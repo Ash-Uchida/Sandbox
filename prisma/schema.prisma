@@ -1,0 +1,51 @@
+// LexCursor data model. See docs/features/foundation/F1.2-authentication.md
+// and docs/features/contract-management/C2.1-contract-dashboard.md.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String     @id @default(uuid())
+  // Clerk user id (subject). Null until first authenticated sync.
+  clerkId     String?    @unique
+  email       String     @unique
+  name        String?
+  imageUrl    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  lastLoginAt DateTime?
+  contracts   Contract[]
+
+  @@map("users")
+}
+
+enum ContractStatus {
+  draft
+  in_review
+  compliant
+  at_risk
+  pending
+}
+
+model Contract {
+  id              String         @id @default(uuid())
+  ownerId         String
+  owner           User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name            String
+  clientId        String
+  status          ContractStatus @default(draft)
+  complianceScore Int?
+  renewalDate     DateTime?      @db.Date
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([ownerId, createdAt])
+  @@index([ownerId, status])
+  @@map("contracts")
+}
