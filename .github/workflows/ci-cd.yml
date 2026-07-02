@@ -78,9 +78,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: next-build
+          # `.next` is a dot-prefixed dir, so hidden files must be included.
+          include-hidden-files: true
           path: |
-            .next
-            !.next/cache
+            .next/standalone
+            .next/static
           retention-days: 7
 
   # 4. End-to-end tests — drive the real app (Playwright) against Postgres.
