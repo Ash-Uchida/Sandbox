@@ -1,0 +1,226 @@
+name: CI/CD Pipeline
+
+# Continuous Integration + Continuous Deployment for LexCursor.
+#
+# On every pull request we build, lint, unit-test and e2e-test the app so a PR
+# clearly signals whether it is ready for `main`. On every push to `main`
+# (production line) we additionally zip the build artifacts and release them so
+# whatever is on `main` is deployable at any time.
+#
+#   build  ─┐
+#   lint   ─┤
+#   test   ─┼─► package ─► release      (release/pages only run on push to main)
+#   e2e    ─┘          └─► deploy-pages
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  # 1. Lint — the code must follow a common style.
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+
+  # 2. Unit tests — fast, DB-free tests of pure logic (Vitest).
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: npm test
+
+  # 3. Build — produce the production build (standalone output).
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: |
+            .next
+            !.next/cache
+          retention-days: 7
+
+  # 4. End-to-end tests — drive the real app (Playwright) against Postgres.
+  e2e:
+    name: E2E tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: lexcursor
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/lexcursor
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Apply database schema
+        run: npx prisma migrate deploy
+      - name: Seed database
+        run: npx prisma db seed
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright e2e tests
+        run: npm run e2e
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  # 5. Package — zip up a runnable production artifact from the build output.
+  package:
+    name: Package artifact
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+      - name: Assemble standalone bundle
+        run: |
+          set -euo pipefail
+          mkdir -p dist/lexcursor
+          # The standalone server plus the assets it needs to serve.
+          cp -r .next/standalone/. dist/lexcursor/
+          mkdir -p dist/lexcursor/.next
+          cp -r .next/static dist/lexcursor/.next/static
+          if [ -d public ]; then cp -r public dist/lexcursor/public; fi
+      - name: Create build zip
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_SHA::7}"
+          ZIP="lexcursor-build-${VERSION}.zip"
+          (cd dist && zip -r "../${ZIP}" lexcursor >/dev/null)
+          echo "ZIP_NAME=${ZIP}" >> "$GITHUB_ENV"
+          ls -lh "${ZIP}"
+      - name: Upload build zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-zip
+          path: ${{ env.ZIP_NAME }}
+          retention-days: 30
+
+  # 6a. Release — publish the zipped artifact as a GitHub Release (main only).
+  release:
+    name: Release artifact
+    runs-on: ubuntu-latest
+    needs: [lint, test, e2e, package]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    permissions:
+      contents: write
+    steps:
+      - name: Download build zip
+        uses: actions/download-artifact@v4
+        with:
+          name: build-zip
+          path: release
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }} (${{ github.sha }})
+          body: |
+            Automated release from the CI/CD pipeline.
+
+            - Commit: ${{ github.sha }}
+            - Run: ${{ github.run_id }}
+
+            The attached zip contains the Next.js standalone production bundle.
+            Run it with `node lexcursor/server.js` (set `DATABASE_URL` and, if
+            using auth, the Clerk keys).
+          files: release/*.zip
+          fail_on_unmatched_files: true
+
+  # 6b. Release (live) — deploy the Playwright test report to GitHub Pages.
+  # continue-on-error keeps the pipeline green if Pages isn't enabled on the repo
+  # yet (enable once via Settings → Pages → Source: GitHub Actions).
+  deploy-pages:
+    name: Deploy report to Pages
+    runs-on: ubuntu-latest
+    needs: [lint, test, e2e, build]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    continue-on-error: true
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Download Playwright report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: site
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
