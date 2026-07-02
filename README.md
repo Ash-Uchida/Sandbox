@@ -51,13 +51,42 @@ sample content. Add credentials when you're ready (below).
    ```
 Schema lives in `prisma/schema.prisma` (`User`, `Contract`).
 
-## Testing (Playwright)
+## Testing
+
+Unit tests (Vitest) cover pure logic and need no database:
+
+```bash
+npm test                   # run unit tests once (tests/unit)
+npm run test:watch         # watch mode
+```
+
+End-to-end tests (Playwright) drive the real app:
 
 ```bash
 npx playwright install     # one-time: download browsers
-npm run test:e2e           # runs tests in tests/e2e (boots the dev server)
+npm run e2e                # runs tests in tests/e2e (boots the dev server)
 npm run test:e2e:ui        # interactive runner
 ```
+
+The e2e suite talks to the database, so set `DATABASE_URL` (and run
+`npm run db:migrate && npm run db:seed`) before running it.
+
+## CI/CD
+
+A single GitHub Actions pipeline lives in
+[`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml). It runs on every
+pull request and every push to `main`:
+
+1. **Lint** — `npm run lint` (ESLint / Next core-web-vitals).
+2. **Unit test** — `npm test` (Vitest).
+3. **Build** — `npm run build` (Next.js standalone output).
+4. **E2E** — `npm run e2e` (Playwright) against a Postgres service container.
+5. **Package** — zip the standalone build into a runnable artifact.
+6. **Release** — on `main`, publish the zip as a GitHub Release and deploy the
+   Playwright report to GitHub Pages.
+
+So a PR clearly shows whether it's ready for `main`, and whatever lands on
+`main` is packaged and released automatically.
 
 ## Project layout
 

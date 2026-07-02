@@ -19,10 +19,11 @@ export type DashboardStats = {
   nextRenewal: string | null;
 };
 
-/** Aggregate stats for a user's dashboard. */
-export async function getDashboardStats(ownerId: string): Promise<DashboardStats> {
-  const contracts = await prisma.contract.findMany({ where: { ownerId } });
-
+/**
+ * Pure aggregation of dashboard stats from a set of contracts. Kept free of any
+ * I/O so it can be unit-tested without a database.
+ */
+export function computeDashboardStats(contracts: Contract[]): DashboardStats {
   const activeReviews = contracts.filter(
     (c) => c.status === "in_review" || c.status === "pending",
   ).length;
@@ -45,4 +46,10 @@ export async function getDashboardStats(ownerId: string): Promise<DashboardStats
   const nextRenewal = renewals.length ? renewals[0].toISOString() : null;
 
   return { activeReviews, pendingReviews, highRisk, complianceRate, nextRenewal };
+}
+
+/** Aggregate stats for a user's dashboard. */
+export async function getDashboardStats(ownerId: string): Promise<DashboardStats> {
+  const contracts = await prisma.contract.findMany({ where: { ownerId } });
+  return computeDashboardStats(contracts);
 }
