@@ -39,7 +39,7 @@ sample content. Add credentials when you're ready (below).
    - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
    - `CLERK_SECRET_KEY`
 3. Restart `npm run dev`. Now `/dashboard`, `/editor`, `/linter` require login
-   (enforced in `middleware.ts`); the top-bar shows the real user.
+   (enforced in `proxy.ts`); the top-bar shows the real user.
 
 ## Database (Postgres + Prisma)
 
