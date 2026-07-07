@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import UserMenu from "@/components/UserMenu";
 import { getActiveUser } from "@/lib/user";
 import { listContracts, getDashboardStats } from "@/lib/contracts";
-import type { Contract } from "@/lib/contracts";
+import { getContractStatusBadge } from "@/lib/status-badge";
 
 export const metadata: Metadata = {
   title: "Project Dashboard | LexCursor",
@@ -20,36 +20,6 @@ const shortDateFmt = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
 });
-
-function statusBadge(contract: Contract): { label: string; className: string } {
-  switch (contract.status) {
-    case "compliant":
-      return {
-        label: `${contract.complianceScore ?? 0}% COMPLIANT`,
-        className: "bg-tertiary-fixed/30 text-on-tertiary-fixed-variant",
-      };
-    case "at_risk":
-      return {
-        label: `${contract.complianceScore ?? 0}% AT RISK`,
-        className: "bg-error-container text-on-error-container",
-      };
-    case "pending":
-      return {
-        label: "PENDING REVIEW",
-        className: "bg-secondary-fixed text-on-secondary-fixed-variant",
-      };
-    case "in_review":
-      return {
-        label: "IN REVIEW",
-        className: "bg-secondary-fixed text-on-secondary-fixed-variant",
-      };
-    default:
-      return {
-        label: "DRAFT",
-        className: "bg-surface-container-high text-on-surface-variant",
-      };
-  }
-}
 
 export default async function DashboardPage() {
   const user = await getActiveUser();
@@ -217,7 +187,7 @@ export default async function DashboardPage() {
                   </tr>
                 ) : (
                   contracts.map((contract) => {
-                    const badge = statusBadge(contract);
+                    const badge = getContractStatusBadge(contract);
                     return (
                       <tr
                         key={contract.id}

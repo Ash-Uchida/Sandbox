@@ -64,13 +64,13 @@ Goal: a place to store data and handle requests.
 
 Goal: users must log in; protect the app screens.
 
-- [ ] Install and configure the chosen auth provider (Clerk/Auth0/Auth.js).
-- [ ] Add login / signup / logout flows.
-- [ ] Protect routes so only logged-in users see the dashboard/editor/linter.
-- [ ] Connect the logged-in user to the `User` table in the DB.
-- [ ] Show the real user in the top bar (replace the placeholder avatar).
+- [x] Install and configure the chosen auth provider (Clerk/Auth0/Auth.js). → **Clerk**, keys in `.env.local`
+- [x] Add login / signup / logout flows. → `/sign-in`, `/sign-up`, `UserButton`
+- [x] Protect routes so only logged-in users see the dashboard/editor/linter. → `middleware.ts`
+- [x] Connect the logged-in user to the `User` table in the DB. → `getActiveUser()` upserts by `clerkId`
+- [x] Show the real user in the top bar (replace the placeholder avatar). → `UserMenu`
 
-**Done when:** logged-out users are redirected to login; logged-in users see their data.
+**Done when:** logged-out users are redirected to login; logged-in users see their data. ✅ **DONE** (first user signed up; visible in Clerk dashboard)
 
 ---
 
@@ -79,13 +79,13 @@ Goal: users must log in; protect the app screens.
 Goal: connect your app/agent workflows to MCP servers (e.g. GitHub, Figma,
 or a custom one for legal data).
 
-- [ ] Decide what the MCP is for: dev tooling (in Cursor) vs a feature your app
-      calls at runtime. These are different setups.
-- [ ] For Cursor dev tooling: configure servers in `.cursor/mcp.json`.
+- [x] Decide what the MCP is for: dev tooling (in Cursor) vs a feature your app
+      calls at runtime. → **dev tooling** (Neon) chosen
+- [x] For Cursor dev tooling: configure servers in `.cursor/mcp.json`. → Neon MCP configured (global `~/.cursor/mcp.json`, via `neonctl init`)
 - [ ] For app runtime: add an MCP client in the backend and wire it to a server.
 - [ ] Store any MCP credentials as environment variables (never commit them).
 
-**Done when:** you can call one MCP tool successfully end to end.
+**Done when:** you can call one MCP tool successfully end to end. 🟡 **PARTIAL** (Neon dev-tooling MCP installed; runtime MCP not started)
 
 > Note: clarify this goal later — "set up MCP" means different things depending
 > on whether it's for your dev workflow or a product feature.
@@ -109,13 +109,13 @@ Goal: reproducible environment for dev and deployment.
 
 Goal: automated tests that click through the real app like a user.
 
-- [ ] Install Playwright (`npm init playwright@latest`).
-- [ ] Write a smoke test: load each screen, assert key elements render.
-- [ ] Write a navigation test: click each sidebar item, assert the URL/screen.
-- [ ] Write an auth test: log in, confirm protected pages load.
-- [ ] Run headed (`--headed`) once to watch it, then headless for CI.
+- [x] Install Playwright (`npm init playwright@latest`). → browsers installed
+- [x] Write a smoke test: load each screen, assert key elements render.
+- [x] Write a navigation test: click each sidebar item, assert the URL/screen. → `tests/e2e/navigation.spec.ts`
+- [ ] Write an auth test: log in, confirm protected pages load. ← still TODO
+- [x] Run headed (`--headed`) once to watch it, then headless for CI. → `npm run test:e2e` **2 passed**
 
-**Done when:** `npx playwright test` passes for navigation + auth flows.
+**Done when:** `npx playwright test` passes for navigation + auth flows. 🟡 **PARTIAL** (navigation ✅ passing; auth-flow test not written yet)
 
 > If you go mobile later: swap this phase for **Maestro** — write `.yaml` flows
 > and run with `maestro test flow.yaml` against an emulator/simulator.
@@ -126,11 +126,17 @@ Goal: automated tests that click through the real app like a user.
 
 Goal: tests run automatically and the app deploys on push.
 
-- [ ] Add a GitHub Actions workflow: install deps, run Playwright on every PR.
-- [ ] Set up deployment (Vercel for Next.js is easiest).
-- [ ] Add required status checks so broken tests block merges.
+- [x] Add a GitHub Actions workflow: install deps, run Playwright on every PR. → `.github/workflows/ci-cd.yml` (lint, unit, build, e2e, package, release, Pages)
+- [~] Set up deployment. → publishes a **GitHub Release** zip + Playwright report to **Pages** on `main` (no live app host like Vercel yet)
+- [ ] Add required status checks so broken tests block merges. ← configure in repo Settings → Branches
 
-**Done when:** pushing to `main` runs tests and deploys automatically.
+**Done when:** pushing to `main` runs tests and deploys automatically. 🟡 **PARTIAL** — see caveats below.
+
+> ⚠️ CI caveats:
+> - Unit tests: `tests/unit/*.test.ts` — **9 tests passing** (`npm test`). ✅
+> - `output: "standalone"` is set ✅ and scripts (`test`, `e2e`) match the workflow ✅.
+> - E2E in CI runs against a throwaway Postgres service (not Neon) ✅.
+> - Enable branch protection + required checks in GitHub Settings when ready.
 
 ---
 
@@ -149,4 +155,4 @@ Goal: tests run automatically and the app deploys on push.
 - [ ] Wire up **Legal Library** and **Settings** sidebar links (no pages yet).
 - [ ] Make the **mobile bottom nav** actually navigate (currently buttons).
 - [ ] Replace placeholder images/avatars with real assets.
-- [ ] Add a real `README.md` with setup instructions.
+- [x] Add a real `README.md` with setup instructions.
