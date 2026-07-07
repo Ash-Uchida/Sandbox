@@ -112,10 +112,10 @@ Goal: automated tests that click through the real app like a user.
 - [x] Install Playwright (`npm init playwright@latest`). → browsers installed
 - [x] Write a smoke test: load each screen, assert key elements render.
 - [x] Write a navigation test: click each sidebar item, assert the URL/screen. → `tests/e2e/navigation.spec.ts`
-- [ ] Write an auth test: log in, confirm protected pages load. ← still TODO
-- [x] Run headed (`--headed`) once to watch it, then headless for CI. → `npm run test:e2e` **2 passed**
+- [x] Write an auth test: log in, confirm protected pages load. → `tests/e2e/auth.spec.ts` (logged-out redirect to `/sign-in`)
+- [x] Run headed (`--headed`) once to watch it, then headless for CI. → `npm run test:e2e`
 
-**Done when:** `npx playwright test` passes for navigation + auth flows. 🟡 **PARTIAL** (navigation ✅ passing; auth-flow test not written yet)
+**Done when:** `npx playwright test` passes for navigation + auth flows. ✅ **DONE**
 
 > If you go mobile later: swap this phase for **Maestro** — write `.yaml` flows
 > and run with `maestro test flow.yaml` against an emulator/simulator.

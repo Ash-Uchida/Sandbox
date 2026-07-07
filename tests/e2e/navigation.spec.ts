@@ -1,28 +1,37 @@
 import { test, expect } from "@playwright/test";
 
-// These tests assume Clerk is NOT configured (open mode). With Clerk keys set,
-// protected routes redirect to /sign-in and these would need a test session.
+const clerkEnabled =
+  !!process.env.CLERK_SECRET_KEY &&
+  !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-test("root redirects to the dashboard", async ({ page }) => {
-  await page.goto("/");
-  await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(
-    page.getByRole("link", { name: "LexCursor" }).or(page.getByText("LexCursor")),
-  ).toBeVisible();
-  await expect(page.getByText("Welcome back, Counselor.")).toBeVisible();
-});
+// Open-mode navigation tests. Skipped when Clerk keys are set (routes require login).
+test.describe("navigation (open mode, no Clerk)", () => {
+  test.skip(
+    clerkEnabled,
+    "Navigation tests require open mode; unset Clerk keys or run auth.spec.ts instead",
+  );
 
-test("sidebar navigates between the three screens", async ({ page }) => {
-  await page.goto("/dashboard");
+  test("root redirects to the dashboard", async ({ page }) => {
+    await page.goto("/");
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await expect(
+      page.getByRole("link", { name: "LexCursor" }).or(page.getByText("LexCursor")),
+    ).toBeVisible();
+    await expect(page.getByText("Welcome back, Counselor.")).toBeVisible();
+  });
 
-  await page.getByRole("link", { name: "Document Editor" }).click();
-  await expect(page).toHaveURL(/\/editor$/);
+  test("sidebar navigates between the three screens", async ({ page }) => {
+    await page.goto("/dashboard");
 
-  await page.getByRole("link", { name: "Compliance Linter" }).click();
-  await expect(page).toHaveURL(/\/linter$/);
+    await page.getByRole("link", { name: "Document Editor" }).click();
+    await expect(page).toHaveURL(/\/editor$/);
 
-  const dashboardLink = page.getByRole("link", { name: "Project Dashboard" });
-  await dashboardLink.click();
-  await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(dashboardLink).toHaveAttribute("aria-current", "page");
+    await page.getByRole("link", { name: "Compliance Linter" }).click();
+    await expect(page).toHaveURL(/\/linter$/);
+
+    const dashboardLink = page.getByRole("link", { name: "Project Dashboard" });
+    await dashboardLink.click();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await expect(dashboardLink).toHaveAttribute("aria-current", "page");
+  });
 });

@@ -64,9 +64,14 @@ End-to-end tests (Playwright) drive the real app:
 
 ```bash
 npx playwright install     # one-time: download browsers
-npm run e2e                # runs tests in tests/e2e (boots the dev server)
+npm run dev                # in one terminal (required locally)
+npm run test:e2e           # in another — auth + navigation specs
 npm run test:e2e:ui        # interactive runner
 ```
+
+Locally, start `npm run dev` first (Playwright does not auto-boot the app unless
+`CI=true`). With Clerk keys in `.env.local`, `tests/e2e/auth.spec.ts` verifies
+logged-out redirects to `/sign-in`; navigation tests run in CI where Clerk is off.
 
 The e2e suite talks to the database, so set `DATABASE_URL` (and run
 `npm run db:migrate && npm run db:seed`) before running it.
