@@ -127,7 +127,7 @@ Use Vercel for the live BriefcaseOS site.
 
 ### 1. Connect the repo
 
-1. Go to [vercel.com/new](https://vercel.com/new) and import `Ash-Uchida/Sandbox`.
+1. Go to [vercel.com/new](https://vercel.com/new) and import `Ash-Uchida/Sandbox` (project name: **briefcase-os**).
 2. Framework should auto-detect **Next.js**. Root directory: `.` (repo root).
 3. Build command: uses `vercel-build` (`prisma migrate deploy && next build`).
 
@@ -153,8 +153,8 @@ into the Vercel UI.
 
 In [Clerk Dashboard](https://dashboard.clerk.com) → your app → **Domains**:
 
-- Add your Vercel URL (e.g. `https://sandbox-xxx.vercel.app`)
-- Allow redirect URLs: `https://your-domain.vercel.app/*`
+- Add your Vercel URL (e.g. `https://briefcase-os.vercel.app` or your team subdomain)
+- Allow redirect URLs: `https://briefcase-os.vercel.app/*` (use your actual domain)
 
 Redeploy after saving env vars and Clerk domains.
 
