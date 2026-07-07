@@ -3,7 +3,7 @@ import UserMenu from "@/components/UserMenu";
 import styles from "./editor.module.css";
 
 export const metadata: Metadata = {
-  title: "Document Editor | LexCursor",
+  title: "Document Editor | BriefcaseOS",
 };
 
 export default function EditorPage() {
@@ -227,7 +227,7 @@ export default function EditorPage() {
             <div className="relative group">
               <textarea
                 className="w-full bg-[#0F172A] border border-white/20 rounded-xl px-md py-md text-white placeholder-white/40 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/30 transition-all resize-none font-body-md"
-                placeholder="Ask LexCursor..."
+                placeholder="Ask BriefcaseOS..."
                 rows={2}
               />
               <div className="absolute right-md bottom-md flex gap-sm">

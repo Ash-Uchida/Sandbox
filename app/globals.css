@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
-/* Shared styles ported from the original LexCursor mockups */
+/* Shared styles ported from the original BriefcaseOS mockups */
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
   font-weight: normal;

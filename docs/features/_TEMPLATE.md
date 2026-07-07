@@ -92,7 +92,7 @@ automated test.
 - Mobile / responsive behaviour.
 - Accessibility annotations (focus order, ARIA).
 - Copy & i18n keys.
-- Design tokens: conform to `lexcursor_visual_language/DESIGN.md`.
+- Design tokens: conform to `briefcaseos_visual_language/DESIGN.md`.
 
 ## 11. AI / ML Considerations
 

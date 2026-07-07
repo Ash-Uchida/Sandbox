@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import UserMenu from "@/components/UserMenu";
 
 export const metadata: Metadata = {
-  title: "Compliance Linter | LexCursor",
+  title: "Compliance Linter | BriefcaseOS",
 };
 
 export default function LinterPage() {

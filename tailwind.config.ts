@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-// Mirrors the LexCursor visual language (see lexcursor_visual_language/DESIGN.md)
+// Mirrors the BriefcaseOS visual language (see briefcaseos_visual_language/DESIGN.md)
 // and the original Stitch mockups so the ported screens render identically.
 const config: Config = {
   darkMode: "class",

@@ -5,7 +5,7 @@ import { listContracts, getDashboardStats } from "@/lib/contracts";
 import { getContractStatusBadge } from "@/lib/status-badge";
 
 export const metadata: Metadata = {
-  title: "Project Dashboard | LexCursor",
+  title: "Project Dashboard | BriefcaseOS",
 };
 
 // Reads live data per request (not prerendered at build time).

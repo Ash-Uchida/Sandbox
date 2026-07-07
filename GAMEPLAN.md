@@ -1,4 +1,4 @@
-# LexCursor — Build Gameplan
+# BriefcaseOS — Build Gameplan
 
 A step-by-step roadmap to take this from static HTML mockups to a real,
 tested, authenticated, deployable app. Work top to bottom. Each phase has a
@@ -127,10 +127,10 @@ Goal: automated tests that click through the real app like a user.
 Goal: tests run automatically and the app deploys on push.
 
 - [x] Add a GitHub Actions workflow: install deps, run Playwright on every PR. → `.github/workflows/ci-cd.yml` (lint, unit, build, e2e, package, release, Pages)
-- [~] Set up deployment. → publishes a **GitHub Release** zip + Playwright report to **Pages** on `main` (no live app host like Vercel yet)
+- [x] Set up deployment. → **Vercel** (see README); GitHub Pages = Playwright report only
 - [ ] Add required status checks so broken tests block merges. ← configure in repo Settings → Branches
 
-**Done when:** pushing to `main` runs tests and deploys automatically. 🟡 **PARTIAL** — see caveats below.
+**Done when:** pushing to `main` runs tests and deploys automatically. 🟡 **PARTIAL** — connect Vercel to GitHub for auto-deploy on push
 
 > ⚠️ CI caveats:
 > - Unit tests: `tests/unit/*.test.ts` — **9 tests passing** (`npm test`). ✅

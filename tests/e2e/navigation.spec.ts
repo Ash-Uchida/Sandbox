@@ -15,7 +15,7 @@ test.describe("navigation (open mode, no Clerk)", () => {
     await page.goto("/");
     await expect(page).toHaveURL(/\/dashboard$/);
     await expect(
-      page.getByRole("link", { name: "LexCursor" }).or(page.getByText("LexCursor")),
+      page.getByRole("link", { name: "BriefcaseOS" }).or(page.getByText("BriefcaseOS")),
     ).toBeVisible();
     await expect(page.getByText("Welcome back, Counselor.")).toBeVisible();
   });

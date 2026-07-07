@@ -1,4 +1,4 @@
-// LexCursor data model. See docs/features/foundation/F1.2-authentication.md
+// BriefcaseOS data model. See docs/features/foundation/F1.2-authentication.md
 // and docs/features/contract-management/C2.1-contract-dashboard.md.
 
 generator client {

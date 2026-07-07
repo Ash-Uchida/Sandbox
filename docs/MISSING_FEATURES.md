@@ -1,6 +1,6 @@
-# LexCursor — Missing Features Inventory
+# BriefcaseOS — Missing Features Inventory
 
-The single source of truth for what LexCursor still needs. Each row maps to a
+The single source of truth for what BriefcaseOS still needs. Each row maps to a
 **story** (an independently deployable feature) under
 [`docs/features/`](features/). Stories follow
 [`docs/features/_TEMPLATE.md`](features/_TEMPLATE.md).

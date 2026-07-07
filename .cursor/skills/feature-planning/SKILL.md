@@ -1,11 +1,11 @@
 ---
 name: feature-planning
-description: Author and refine LexCursor feature "stories" (independently deployable features) under docs/features/ using the _TEMPLATE.md structure. Use when the user asks to plan a feature, write or update a story, break a feature into stories, or fill in docs/features/ or docs/MISSING_FEATURES.md.
+description: Author and refine BriefcaseOS feature "stories" (independently deployable features) under docs/features/ using the _TEMPLATE.md structure. Use when the user asks to plan a feature, write or update a story, break a feature into stories, or fill in docs/features/ or docs/MISSING_FEATURES.md.
 ---
 
 # Feature Planning (Story Authoring)
 
-Plans LexCursor work as **stories**: one story = one independently deployable
+Plans BriefcaseOS work as **stories**: one story = one independently deployable
 feature. Stories live in `docs/features/<feature-area>/<ID>-<kebab-name>.md` and
 follow `docs/features/_TEMPLATE.md`. The backlog index is
 `docs/MISSING_FEATURES.md`.
@@ -42,7 +42,7 @@ how to proceed — do not silently substitute a weaker model for planning.
 ```
 - [ ] 1. Locate the row in docs/MISSING_FEATURES.md (add it if missing)
 - [ ] 2. Read 1–2 existing completed stories as the pattern to match
-- [ ] 3. Read docs/features/_TEMPLATE.md and lexcursor_visual_language/DESIGN.md
+- [ ] 3. Read docs/features/_TEMPLATE.md and briefcaseos_visual_language/DESIGN.md
 - [ ] 4. Delegate the draft to the stronger model (see above)
 - [ ] 5. Review the draft: fill EVERY template section, keep IDs/links consistent
 - [ ] 6. Write the file as docs/features/<area>/<ID>-<kebab-name>.md
@@ -72,5 +72,5 @@ ones, and keep structure/heading order identical across stories.
 
 - Template: `docs/features/_TEMPLATE.md`
 - Backlog: `docs/MISSING_FEATURES.md`
-- Design tokens: `lexcursor_visual_language/DESIGN.md`
+- Design tokens: `briefcaseos_visual_language/DESIGN.md`
 - Phasing context: `GAMEPLAN.md`

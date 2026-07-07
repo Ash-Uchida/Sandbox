@@ -1,6 +1,6 @@
 name: CI/CD Pipeline
 
-# Continuous Integration + Continuous Deployment for LexCursor.
+# Continuous Integration + Continuous Deployment for BriefcaseOS.
 #
 # On every pull request we build, lint, unit-test and e2e-test the app so a PR
 # clearly signals whether it is ready for `main`. On every push to `main`
@@ -95,7 +95,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: lexcursor
+          POSTGRES_DB: briefcaseos
         ports:
           - 5432:5432
         options: >-
@@ -104,7 +104,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/lexcursor
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/briefcaseos
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -144,18 +144,18 @@ jobs:
       - name: Assemble standalone bundle
         run: |
           set -euo pipefail
-          mkdir -p dist/lexcursor
+          mkdir -p dist/briefcaseos
           # The standalone server plus the assets it needs to serve.
-          cp -r .next/standalone/. dist/lexcursor/
-          mkdir -p dist/lexcursor/.next
-          cp -r .next/static dist/lexcursor/.next/static
-          if [ -d public ]; then cp -r public dist/lexcursor/public; fi
+          cp -r .next/standalone/. dist/briefcaseos/
+          mkdir -p dist/briefcaseos/.next
+          cp -r .next/static dist/briefcaseos/.next/static
+          if [ -d public ]; then cp -r public dist/briefcaseos/public; fi
       - name: Create build zip
         run: |
           set -euo pipefail
           VERSION="${GITHUB_SHA::7}"
-          ZIP="lexcursor-build-${VERSION}.zip"
-          (cd dist && zip -r "../${ZIP}" lexcursor >/dev/null)
+          ZIP="briefcaseos-build-${VERSION}.zip"
+          (cd dist && zip -r "../${ZIP}" briefcaseos >/dev/null)
           echo "ZIP_NAME=${ZIP}" >> "$GITHUB_ENV"
           ls -lh "${ZIP}"
       - name: Upload build zip
@@ -191,7 +191,7 @@ jobs:
             - Run: ${{ github.run_id }}
 
             The attached zip contains the Next.js standalone production bundle.
-            Run it with `node lexcursor/server.js` (set `DATABASE_URL` and, if
+            Run it with `node briefcaseos/server.js` (set `DATABASE_URL` and, if
             using auth, the Clerk keys).
           files: release/*.zip
           fail_on_unmatched_files: true

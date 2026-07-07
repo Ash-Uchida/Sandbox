@@ -1,5 +1,5 @@
 ---
-name: LexCursor Visual Language
+name: BriefcaseOS Visual Language
 colors:
   surface: '#f8f9ff'
   surface-dim: '#cbdbf5'

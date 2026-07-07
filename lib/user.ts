@@ -1,7 +1,7 @@
 import { prisma } from "./prisma";
 import type { User } from "@prisma/client";
 
-const DEMO_EMAIL = "demo@lexcursor.test";
+const DEMO_EMAIL = "demo@briefcaseos.test";
 
 const clerkEnabled =
   !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&

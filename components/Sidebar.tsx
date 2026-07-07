@@ -47,7 +47,7 @@ export default function Sidebar() {
     <aside className="hidden md:flex flex-col h-screen w-[260px] py-lg bg-inverse-surface border-r border-outline-variant/20 shrink-0">
       <div className="px-lg mb-xl">
         <span className="font-headline-md text-headline-md font-bold text-surface-container-lowest tracking-tight">
-          LexCursor
+          BriefcaseOS
         </span>
       </div>
       <nav className="flex-1 flex flex-col overflow-y-auto">

@@ -1,4 +1,4 @@
-# LexCursor local stack: Postgres + Next.js app
+# BriefcaseOS local stack: Postgres + Next.js app
 #
 # Usage:
 #   cp .env.example .env          # fill DATABASE_URL + optional Clerk/MCP keys
@@ -13,13 +13,13 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: lexcursor
+      POSTGRES_DB: briefcaseos
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d lexcursor"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d briefcaseos"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -35,7 +35,7 @@ services:
       - .env
     environment:
       # Override DATABASE_URL to use the compose Postgres service.
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/lexcursor
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/briefcaseos
     depends_on:
       db:
         condition: service_healthy

@@ -26,7 +26,7 @@ async function connectMcpClient(): Promise<Client> {
     throw new Error("MCP_SERVER_URL is not set");
   }
 
-  const client = new Client({ name: "lexcursor", version: "0.1.0" });
+  const client = new Client({ name: "briefcase-os", version: "0.1.0" });
   const baseUrl = new URL(serverUrl);
   const headers = authHeaders();
 

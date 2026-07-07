@@ -1,4 +1,4 @@
-# LexCursor
+# BriefcaseOS
 
 AI workspace for corporate transactional law. Next.js (App Router) + TypeScript +
 Tailwind, with Clerk for auth, Postgres + Prisma for data, and Playwright for E2E.
@@ -8,7 +8,7 @@ Tailwind, with Clerk for auth, Postgres + Prisma for data, and Playwright for E2
 | Concern | Choice |
 |---|---|
 | Framework | Next.js 16 (App Router), React 19, TypeScript |
-| Styling | Tailwind CSS v4 (tokens in `tailwind.config.ts`, see `lexcursor_visual_language/DESIGN.md`) |
+| Styling | Tailwind CSS v4 (tokens in `tailwind.config.ts`, see `briefcaseos_visual_language/DESIGN.md`) |
 | Auth | Clerk (`@clerk/nextjs`) — env-gated |
 | Database | PostgreSQL via Prisma |
 | E2E tests | Playwright |
@@ -75,7 +75,7 @@ docker compose up --build
 ```
 
 - App: <http://localhost:3000>
-- Postgres: `localhost:5432` (user/pass/db: `postgres` / `postgres` / `lexcursor`)
+- Postgres: `localhost:5432` (user/pass/db: `postgres` / `postgres` / `briefcaseos`)
 - Migrations run automatically on container start (`docker-entrypoint.sh`).
 
 ## Testing
@@ -119,6 +119,53 @@ pull request and every push to `main`:
 
 So a PR clearly shows whether it's ready for `main`, and whatever lands on
 `main` is packaged and released automatically.
+
+## Deploy to Vercel (live app)
+
+GitHub Pages in this repo publishes the **Playwright test report**, not the app.
+Use Vercel for the live BriefcaseOS site.
+
+### 1. Connect the repo
+
+1. Go to [vercel.com/new](https://vercel.com/new) and import `Ash-Uchida/Sandbox`.
+2. Framework should auto-detect **Next.js**. Root directory: `.` (repo root).
+3. Build command: uses `vercel-build` (`prisma migrate deploy && next build`).
+
+### 2. Add environment variables (Vercel dashboard)
+
+Copy from your local `.env` / `.env.local` into **Settings → Environment Variables**
+for **Production** (and Preview if you want PR previews):
+
+| Variable | Required |
+|---|---|
+| `DATABASE_URL` | Yes — Neon connection string |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Yes |
+| `CLERK_SECRET_KEY` | Yes |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | Optional (`/sign-in`) |
+| `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | Optional (`/sign-up`) |
+| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | Optional (`/dashboard`) |
+| `MCP_SERVER_URL`, `NEON_API_KEY` | Optional |
+
+Local `.env` is **not** uploaded to git or Vercel automatically — paste each value
+into the Vercel UI.
+
+### 3. Configure Clerk for production
+
+In [Clerk Dashboard](https://dashboard.clerk.com) → your app → **Domains**:
+
+- Add your Vercel URL (e.g. `https://sandbox-xxx.vercel.app`)
+- Allow redirect URLs: `https://your-domain.vercel.app/*`
+
+Redeploy after saving env vars and Clerk domains.
+
+### 4. Deploy from CLI (optional)
+
+```bash
+npm i -g vercel
+vercel login
+vercel link
+vercel --prod
+```
 
 ## Project layout
 
