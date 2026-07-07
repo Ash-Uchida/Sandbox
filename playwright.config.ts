@@ -32,7 +32,6 @@ export default defineConfig({
           url: baseURL,
           timeout: 180_000,
           reuseExistingServer: false,
-          stdout: /Ready in/i,
         },
       }
     : {}),

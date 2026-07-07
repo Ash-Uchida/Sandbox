@@ -12,6 +12,8 @@ Tailwind, with Clerk for auth, Postgres + Prisma for data, and Playwright for E2
 | Auth | Clerk (`@clerk/nextjs`) — env-gated |
 | Database | PostgreSQL via Prisma |
 | E2E tests | Playwright |
+| MCP | Neon (Cursor dev tooling + optional runtime API) |
+| Containers | Docker + Compose |
 
 ## Quick start
 
@@ -50,6 +52,31 @@ sample content. Add credentials when you're ready (below).
    npm run db:studio       # optional: browse data
    ```
 Schema lives in `prisma/schema.prisma` (`User`, `Contract`).
+
+## MCP (Phase 4)
+
+**Cursor dev tooling** — `.cursor/mcp.json` points at [Neon MCP](https://mcp.neon.tech/mcp).
+Reload Cursor after cloning. Authenticate Neon when prompted (or run `npx neonctl init`).
+
+**Runtime API** — optional integration for the app backend:
+
+1. Set in `.env` / `.env.local`:
+   - `MCP_SERVER_URL=https://mcp.neon.tech/mcp`
+   - `NEON_API_KEY` (or `MCP_API_KEY`) from the Neon console
+2. While logged in, `GET /api/mcp` lists tools exposed by the server (health check).
+
+## Docker (Phase 5)
+
+Run the full stack (Postgres + app) with one command:
+
+```bash
+cp .env.example .env    # fill Clerk keys if you want auth in the container
+docker compose up --build
+```
+
+- App: <http://localhost:3000>
+- Postgres: `localhost:5432` (user/pass/db: `postgres` / `postgres` / `lexcursor`)
+- Migrations run automatically on container start (`docker-entrypoint.sh`).
 
 ## Testing
 
@@ -104,8 +131,11 @@ app/
   sign-in/  sign-up/
   layout.tsx        # root layout (fonts, Clerk provider)
 components/          # Sidebar, UserMenu, ...
-lib/                # prisma client, helpers
+lib/                # prisma client, mcp client, helpers
 prisma/             # schema + migrations
+.cursor/mcp.json    # Neon MCP for Cursor (no secrets in repo)
+Dockerfile          # production image (standalone Next.js)
+docker-compose.yml  # local app + Postgres
 tests/e2e/          # Playwright specs
 docs/               # feature stories + backlog (see docs/MISSING_FEATURES.md)
 ```

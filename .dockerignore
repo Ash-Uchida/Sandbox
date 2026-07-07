@@ -1,0 +1,38 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Next.js
+.next
+out
+
+# Git / IDE
+.git
+.gitignore
+.cursor
+.vscode
+
+# Tests & reports
+coverage
+test-results
+playwright-report
+playwright/.cache
+
+# Env (injected at runtime via compose or orchestrator)
+.env
+.env.*
+!.env.example
+
+# Docs / mockups (not needed in image)
+docs
+project_dashboard
+split_screen_editor
+compliance_linter
+lexcursor_visual_language
+index.html
+GAMEPLAN.md
+*.md
+!README.md
+
+# OS
+.DS_Store

@@ -82,10 +82,10 @@ or a custom one for legal data).
 - [x] Decide what the MCP is for: dev tooling (in Cursor) vs a feature your app
       calls at runtime. → **dev tooling** (Neon) chosen
 - [x] For Cursor dev tooling: configure servers in `.cursor/mcp.json`. → Neon MCP configured (global `~/.cursor/mcp.json`, via `neonctl init`)
-- [ ] For app runtime: add an MCP client in the backend and wire it to a server.
-- [ ] Store any MCP credentials as environment variables (never commit them).
+- [x] For app runtime: add an MCP client in the backend and wire it to a server. → `lib/mcp/client.ts`, `GET /api/mcp`
+- [x] Store any MCP credentials as environment variables (never commit them). → `NEON_API_KEY` / `MCP_API_KEY` in `.env`
 
-**Done when:** you can call one MCP tool successfully end to end. 🟡 **PARTIAL** (Neon dev-tooling MCP installed; runtime MCP not started)
+**Done when:** you can call one MCP tool successfully end to end. ✅ **DONE** (call `GET /api/mcp` while logged in with `MCP_SERVER_URL` + `NEON_API_KEY` set)
 
 > Note: clarify this goal later — "set up MCP" means different things depending
 > on whether it's for your dev workflow or a product feature.
@@ -96,12 +96,12 @@ or a custom one for legal data).
 
 Goal: reproducible environment for dev and deployment.
 
-- [ ] Write a `Dockerfile` for the app.
-- [ ] Write a `docker-compose.yml` (app + Postgres) for local dev.
-- [ ] Use a `.env` file for secrets; add `.env` to `.gitignore`.
-- [ ] Confirm `docker compose up` runs the whole stack locally.
+- [x] Write a `Dockerfile` for the app.
+- [x] Write a `docker-compose.yml` (app + Postgres) for local dev.
+- [x] Use a `.env` file for secrets; add `.env` to `.gitignore`.
+- [x] Confirm `docker compose up` runs the whole stack locally. → `docker compose up --build`
 
-**Done when:** a teammate can clone, run `docker compose up`, and get a working app.
+**Done when:** a teammate can clone, run `docker compose up`, and get a working app. ✅ **DONE**
 
 ---
 
