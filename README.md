@@ -138,7 +138,8 @@ for **Production** (and Preview if you want PR previews):
 
 | Variable | Required |
 |---|---|
-| `DATABASE_URL` | Yes — Neon connection string |
+| `DATABASE_URL` | Yes — Neon **pooled** connection string |
+| `DIRECT_DATABASE_URL` | Yes — Neon **direct** connection string (for Prisma migrations) |
 | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Yes |
 | `CLERK_SECRET_KEY` | Yes |
 | `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | Optional (`/sign-in`) |
