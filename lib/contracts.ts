@@ -53,3 +53,34 @@ export async function getDashboardStats(ownerId: string): Promise<DashboardStats
   const contracts = await prisma.contract.findMany({ where: { ownerId } });
   return computeDashboardStats(contracts);
 }
+
+export type CreateContractData = {
+  name: string;
+  clientId: string;
+  status?: Contract["status"];
+};
+
+/** Create a contract owned by the given user. */
+export async function createContract(
+  ownerId: string,
+  data: CreateContractData,
+): Promise<Contract> {
+  return prisma.contract.create({
+    data: {
+      ownerId,
+      name: data.name,
+      clientId: data.clientId,
+      status: data.status ?? "draft",
+    },
+  });
+}
+
+/** Fetch one contract if it belongs to the user. */
+export async function getContract(
+  ownerId: string,
+  contractId: string,
+): Promise<Contract | null> {
+  return prisma.contract.findFirst({
+    where: { id: contractId, ownerId },
+  });
+}

@@ -11,6 +11,8 @@ const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
   "/editor(.*)",
   "/linter(.*)",
+  "/library(.*)",
+  "/settings(.*)",
 ]);
 
 const withClerk = clerkMiddleware(async (auth, req) => {

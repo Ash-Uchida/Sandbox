@@ -1,12 +1,26 @@
 import type { Metadata } from "next";
 import UserMenu from "@/components/UserMenu";
+import { getActiveUser } from "@/lib/user";
+import { getContract } from "@/lib/contracts";
 import styles from "./editor.module.css";
 
 export const metadata: Metadata = {
   title: "Document Editor | BriefcaseOS",
 };
 
-export default function EditorPage() {
+export const dynamic = "force-dynamic";
+
+type Props = {
+  searchParams: Promise<{ contract?: string }>;
+};
+
+export default async function EditorPage({ searchParams }: Props) {
+  const { contract: contractId } = await searchParams;
+  const user = await getActiveUser();
+  const contract = contractId
+    ? await getContract(user.id, contractId)
+    : null;
+  const title = contract?.name ?? "Project Alpha - Master Service Agreement";
   return (
     <main className="flex-1 flex flex-col h-full overflow-hidden relative">
       {/* TopAppBar */}
@@ -24,7 +38,7 @@ export default function EditorPage() {
             menu_open
           </span>
           <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface">
-            Project Alpha - Master Service Agreement
+            {title}
           </h1>
         </div>
         <div className="flex items-center gap-md">

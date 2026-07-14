@@ -14,7 +14,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Project Dashboard", icon: "dashboard", enabled: true },
   { href: "/editor", label: "Document Editor", icon: "description", enabled: true },
   { href: "/linter", label: "Compliance Linter", icon: "fact_check", enabled: true },
-  { href: "/library", label: "Legal Library", icon: "account_balance", enabled: false },
+  { href: "/library", label: "Legal Library", icon: "account_balance", enabled: true },
 ];
 
 export default function Sidebar() {
@@ -57,7 +57,7 @@ export default function Sidebar() {
             href: "/settings",
             label: "Settings",
             icon: "settings",
-            enabled: false,
+            enabled: true,
           })}
         </div>
       </nav>

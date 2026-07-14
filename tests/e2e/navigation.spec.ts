@@ -20,7 +20,7 @@ test.describe("navigation (open mode, no Clerk)", () => {
     await expect(page.getByText("Welcome back, Counselor.")).toBeVisible();
   });
 
-  test("sidebar navigates between the three screens", async ({ page }) => {
+  test("sidebar navigates between the main screens", async ({ page }) => {
     await page.goto("/dashboard");
 
     await page.getByRole("link", { name: "Document Editor" }).click();
@@ -28,6 +28,12 @@ test.describe("navigation (open mode, no Clerk)", () => {
 
     await page.getByRole("link", { name: "Compliance Linter" }).click();
     await expect(page).toHaveURL(/\/linter$/);
+
+    await page.getByRole("link", { name: "Legal Library" }).click();
+    await expect(page).toHaveURL(/\/library$/);
+
+    await page.getByRole("link", { name: "Settings" }).click();
+    await expect(page).toHaveURL(/\/settings$/);
 
     const dashboardLink = page.getByRole("link", { name: "Project Dashboard" });
     await dashboardLink.click();

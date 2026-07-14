@@ -18,7 +18,7 @@ test.describe("protected routes (Clerk enabled)", () => {
   test("redirects logged-out users from /editor and /linter to sign-in", async ({
     page,
   }) => {
-    for (const path of ["/editor", "/linter"] as const) {
+    for (const path of ["/editor", "/linter", "/library", "/settings"] as const) {
       await page.goto(path);
       await expect(page).toHaveURL(/\/sign-in/);
     }
