@@ -24,7 +24,7 @@ export function NotificationButton() {
         notifications
       </button>
       {message ? (
-        <div className="fixed bottom-lg left-1/2 z-[110] -translate-x-1/2 rounded-lg border border-outline-variant/30 bg-inverse-surface px-lg py-sm text-body-sm text-surface shadow-lg">
+        <div className="fixed bottom-lg left-1/2 z-[110] -translate-x-1/2 rounded-lg border border-outline-variant/30 bg-inverse-surface px-lg py-sm text-body-sm text-inverse-on-surface shadow-lg">
           {message}
         </div>
       ) : null}

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { getActiveUser } from "@/lib/user";
 import { createContract, listContracts } from "@/lib/contracts";
 import { parseCreateContractInput } from "@/lib/contract-input";
+import { parseContractUploadForm } from "@/lib/contract-upload";
+import { getActiveUser } from "@/lib/user";
 
 export async function GET() {
   const user = await getActiveUser();
@@ -12,6 +13,21 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const user = await getActiveUser();
+    const contentType = request.headers.get("content-type") ?? "";
+
+    if (contentType.includes("multipart/form-data")) {
+      const formData = await request.formData();
+      const upload = await parseContractUploadForm(formData);
+      const contract = await createContract(user.id, {
+        name: upload.name,
+        clientId: upload.clientId,
+        fileName: upload.fileName,
+        documentText: upload.documentText,
+        status: "draft",
+      });
+      return NextResponse.json({ contract }, { status: 201 });
+    }
+
     const body = await request.json();
     const input = parseCreateContractInput(body);
     const contract = await createContract(user.id, input);

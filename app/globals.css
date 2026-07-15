@@ -1,6 +1,64 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
+/* Tech Slate & Royal Blue — dark mode palette */
+:root {
+  --briefcase-background: #f8f9ff;
+  --briefcase-surface: #f8f9ff;
+  --briefcase-surface-bright: #f8f9ff;
+  --briefcase-inverse-surface: #213145;
+  --briefcase-inverse-on-surface: #eaf1ff;
+  --briefcase-on-background: #0b1c30;
+  --briefcase-on-surface: #0b1c30;
+  --briefcase-on-surface-variant: #434655;
+  --briefcase-surface-variant: #d3e4fe;
+  --briefcase-primary: #0037b0;
+  --briefcase-primary-container: #1d4ed8;
+  --briefcase-primary-fixed-dim: #b7c4ff;
+  --briefcase-on-primary: #ffffff;
+  --briefcase-outline-variant: #c4c5d7;
+  --briefcase-surface-container-lowest: #ffffff;
+  --briefcase-surface-container-low: #eff4ff;
+  --briefcase-surface-container-high: #dce9ff;
+  --briefcase-tech-slate: #0b132b;
+  --briefcase-tech-mist: #e0e6ed;
+  --briefcase-royal-blue: #4ea8de;
+}
+
+.dark {
+  --briefcase-background: #0b132b;
+  --briefcase-surface: #0b132b;
+  --briefcase-surface-bright: #e0e6ed;
+  --briefcase-inverse-surface: #0b132b;
+  --briefcase-inverse-on-surface: #e0e6ed;
+  --briefcase-on-background: #e0e6ed;
+  --briefcase-on-surface: #e0e6ed;
+  --briefcase-on-surface-variant: #9aa8b8;
+  --briefcase-surface-variant: #7d8a99;
+  --briefcase-primary: #4ea8de;
+  --briefcase-primary-container: #4ea8de;
+  --briefcase-primary-fixed-dim: #4ea8de;
+  --briefcase-on-primary: #0b132b;
+  --briefcase-outline-variant: #2a3a5c;
+  --briefcase-surface-container-lowest: #131f3f;
+  --briefcase-surface-container-low: #111b35;
+  --briefcase-surface-container-high: #182447;
+}
+
+/* Custom spacing (md/lg/xl) overrides Tailwind defaults; restore max-width scale. */
+@theme {
+  --max-width-sm: 24rem;
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+  --max-width-2xl: 42rem;
+  --max-width-3xl: 48rem;
+  --max-width-4xl: 56rem;
+  --max-width-5xl: 64rem;
+  --max-width-6xl: 72rem;
+  --max-width-7xl: 80rem;
+}
+
 /* Shared styles ported from the original BriefcaseOS mockups */
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
@@ -18,13 +76,24 @@ body {
 }
 
 .dark body {
-  background-color: #0b1c30;
-  color: #eaf1ff;
+  background-color: #0b132b;
+  color: #e0e6ed;
 }
 
 .dark .app-main {
-  background-color: #0b1c30;
-  color: #eaf1ff;
+  background-color: #0b132b;
+  color: #e0e6ed;
+}
+
+/* Room for mobile guide + profile controls (bottom-left). */
+.app-main {
+  padding-bottom: 5.5rem;
+}
+
+@media (min-width: 48rem) {
+  .app-main {
+    padding-bottom: 0;
+  }
 }
 
 .bento-grid {
@@ -47,4 +116,8 @@ body {
   height: 100%;
   background: linear-gradient(to bottom, #0037b0, #79db8d);
   border-radius: 2px;
+}
+
+.dark .active-cursor-effect::after {
+  background: linear-gradient(to bottom, #4ea8de, #7ec8ef);
 }

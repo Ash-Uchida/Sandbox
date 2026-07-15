@@ -9,6 +9,8 @@ function contract(overrides: Partial<Contract> = {}): Contract {
     ownerId: "u1",
     name: "Sample Contract",
     clientId: "client-1",
+    fileName: null,
+    documentText: null,
     status: "draft",
     complianceScore: null,
     renewalDate: null,

@@ -43,7 +43,7 @@ export default function LibraryResources() {
         {RESOURCES.map((resource) => (
           <article
             key={resource.id}
-            className="flex flex-col gap-4 rounded-xl border border-outline-variant/20 bg-surface-container-low p-6 dark:border-outline-variant/40 dark:bg-white/5"
+            className="flex flex-col gap-4 rounded-xl border border-outline-variant/20 bg-surface-container-low p-6 dark:border-outline-variant/40 dark:bg-surface-container-lowest"
           >
             <span className="inline-flex w-fit rounded-full bg-primary/10 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
               {resource.category}
@@ -52,7 +52,7 @@ export default function LibraryResources() {
               <h3 className="mb-1 text-lg font-semibold text-on-surface dark:text-surface-bright">
                 {resource.title}
               </h3>
-              <p className="text-sm text-on-surface-variant dark:text-surface-variant">
+              <p className="text-sm leading-relaxed text-on-surface-variant dark:text-surface-variant">
                 {resource.description}
               </p>
             </div>

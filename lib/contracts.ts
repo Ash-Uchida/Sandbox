@@ -58,6 +58,8 @@ export type CreateContractData = {
   name: string;
   clientId: string;
   status?: Contract["status"];
+  fileName?: string;
+  documentText?: string;
 };
 
 /** Create a contract owned by the given user. */
@@ -71,6 +73,8 @@ export async function createContract(
       name: data.name,
       clientId: data.clientId,
       status: data.status ?? "draft",
+      fileName: data.fileName,
+      documentText: data.documentText,
     },
   });
 }
@@ -83,4 +87,15 @@ export async function getContract(
   return prisma.contract.findFirst({
     where: { id: contractId, ownerId },
   });
+}
+
+/** Delete a contract owned by the user. Returns true if a row was removed. */
+export async function deleteContract(
+  ownerId: string,
+  contractId: string,
+): Promise<boolean> {
+  const result = await prisma.contract.deleteMany({
+    where: { id: contractId, ownerId },
+  });
+  return result.count > 0;
 }

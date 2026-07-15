@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import EditorToolbarActions from "@/components/EditorToolbarActions";
 import EditorAssistant from "@/components/EditorAssistant";
+import EditorHighlightedContent from "@/components/EditorHighlightedContent";
 import EditorDocument from "@/components/EditorDocument";
 import EditorEmptyState from "@/components/EditorEmptyState";
 import { MobileMenuButton } from "@/components/MobileNav";
@@ -16,11 +17,11 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 type Props = {
-  searchParams: Promise<{ contract?: string }>;
+  searchParams: Promise<{ contract?: string; issue?: string }>;
 };
 
 export default async function EditorPage({ searchParams }: Props) {
-  const { contract: contractId } = await searchParams;
+  const { contract: contractId, issue: issueId } = await searchParams;
   const user = await getActiveUser();
   const contract = contractId
     ? await getContract(user.id, contractId)
@@ -31,7 +32,7 @@ export default async function EditorPage({ searchParams }: Props) {
 
   return (
     <main className="app-main flex h-screen flex-1 flex-col overflow-hidden bg-surface-bright dark:bg-background">
-      <header className="sticky top-0 w-full z-40 flex justify-between items-center h-[64px] px-lg bg-surface-bright/80 backdrop-blur-md border-b border-outline-variant">
+      <header className="sticky top-0 w-full z-40 flex justify-between items-center h-[64px] px-lg bg-surface-bright/80 backdrop-blur-md border-b border-outline-variant dark:border-outline-variant/40 dark:bg-background/80">
         <div className="flex items-center gap-md min-w-0">
           <MobileMenuButton />
           <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">
@@ -47,7 +48,7 @@ export default async function EditorPage({ searchParams }: Props) {
         <section
           className={`h-[55%] md:h-full md:flex-[0.6] bg-[#F7F9FC] dark:bg-background border-b md:border-b-0 md:border-r border-outline-variant overflow-y-auto ${styles.customScrollbar} p-xl`}
         >
-          <div className="max-w-[800px] mx-auto bg-white dark:bg-inverse-surface p-[60px] shadow-sm border border-outline-variant/30 min-h-full">
+          <div className="max-w-[800px] mx-auto bg-white dark:bg-surface-container-lowest p-6 md:p-[60px] shadow-sm border border-outline-variant/30 min-h-full">
             {!contractId ? (
               <EditorEmptyState />
             ) : !contract ? (
@@ -59,17 +60,27 @@ export default async function EditorPage({ searchParams }: Props) {
                   This contract may have been removed or you may not have access.
                 </p>
               </div>
+            ) : contract.documentText ? (
+              <EditorHighlightedContent
+                title={contract.name}
+                fileName={contract.fileName}
+                documentText={contract.documentText}
+                issueId={issueId}
+              />
             ) : (
-              <EditorDocument document={sampleDocument!} />
+              <EditorDocument document={sampleDocument!} issueId={issueId} />
             )}
           </div>
         </section>
 
         {contract ? (
-          <EditorAssistant documentTitle={contract.name} />
+          <EditorAssistant
+            contractId={contract.id}
+            documentTitle={contract.name}
+          />
         ) : (
-          <section className="flex h-[45%] flex-col border-t border-outline-variant bg-[#0B1C30] md:h-full md:flex-[0.4] md:border-t-0 md:border-l p-lg">
-            <p className="text-sm text-white/60">
+          <section className="flex h-[45%] flex-col border-t border-outline-variant bg-inverse-surface md:h-full md:flex-[0.4] md:border-t-0 md:border-l p-lg">
+            <p className="text-sm text-inverse-on-surface/60">
               Select a contract from the dashboard to use the document assistant.
             </p>
           </section>

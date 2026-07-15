@@ -4,6 +4,7 @@ import LinterExportButton from "@/components/LinterExportButton";
 import { MobileMenuButton } from "@/components/MobileNav";
 import { listContracts } from "@/lib/contracts";
 import { getActiveUser } from "@/lib/user";
+import { LINTER_ISSUES } from "@/lib/linter/issues";
 
 export const metadata: Metadata = {
   title: "Compliance Linter | BriefcaseOS",
@@ -15,15 +16,20 @@ export default async function LinterPage() {
   const user = await getActiveUser();
   const contracts = await listContracts(user.id);
   const focusContract =
-    contracts.find((contract) => contract.status === "at_risk") ?? contracts[0];
-  const editorHref = focusContract
+    contracts.find((contract) => contract.documentText) ??
+    contracts.find((contract) => contract.status === "at_risk") ??
+    contracts[0];
+  const editorBase = focusContract
     ? `/editor?contract=${focusContract.id}`
     : undefined;
+
+  const errorCount = LINTER_ISSUES.filter((issue) => issue.severity === "error").length;
+  const warningCount = LINTER_ISSUES.filter((issue) => issue.severity === "warning").length;
 
   return (
     <main className="app-main flex h-screen flex-1 flex-col overflow-y-auto bg-surface-bright dark:bg-background">
       {/* TopAppBar (Shared Component) */}
-      <header className="sticky top-0 w-full z-40 flex justify-between items-center h-[64px] px-lg bg-surface-bright/80 backdrop-blur-md border-b border-outline-variant">
+      <header className="sticky top-0 w-full z-40 flex justify-between items-center h-[64px] px-lg bg-surface-bright/80 backdrop-blur-md border-b border-outline-variant dark:border-outline-variant/40 dark:bg-background/80">
         <div className="flex items-center gap-md min-w-0">
           <MobileMenuButton />
           <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">
@@ -47,7 +53,7 @@ export default async function LinterPage() {
               <p className="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
                 Critical Errors
               </p>
-              <p className="font-headline-sm text-headline-sm text-on-surface">1</p>
+              <p className="font-headline-sm text-headline-sm text-on-surface">{errorCount}</p>
             </div>
           </div>
           <div className="bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex items-center gap-md shadow-sm">
@@ -60,7 +66,7 @@ export default async function LinterPage() {
               <p className="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
                 Warnings
               </p>
-              <p className="font-headline-sm text-headline-sm text-on-surface">2</p>
+              <p className="font-headline-sm text-headline-sm text-on-surface">{warningCount}</p>
             </div>
           </div>
           <div className="bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex items-center gap-md shadow-sm">
@@ -90,7 +96,7 @@ export default async function LinterPage() {
           {/* Card 1: High Risk */}
           <div
             id="issue-high-risk"
-            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-error/50 transition-colors dark:bg-white/5"
+            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-error/50 transition-colors dark:bg-surface-container-lowest"
           >
             <div className="w-1 bg-error"></div>
             <div className="p-lg flex-1 flex items-start gap-lg">
@@ -122,7 +128,9 @@ export default async function LinterPage() {
                 </p>
                 <div className="flex items-center gap-md">
                   <LinterActions
-                    editorHref={editorHref}
+                    editorHref={
+                      editorBase ? `${editorBase}&issue=high-risk` : undefined
+                    }
                     contextTitle="Section 4.2 — Limitation of Liability"
                     contextExcerpt="4.2 LIMITATION OF LIABILITY. Neither Landlord nor Tenant shall be liable for any consequential, indirect, special, punitive, or exemplary damages. In no event shall Landlord's liability under this Lease exceed the total amount of rent paid by Tenant during the preceding twelve (12) month period."
                   />
@@ -134,7 +142,7 @@ export default async function LinterPage() {
           {/* Card 2: Warning */}
           <div
             id="issue-indemnity"
-            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors dark:bg-white/5"
+            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors dark:bg-surface-container-lowest"
           >
             <div className="w-1 bg-tertiary-container"></div>
             <div className="p-lg flex-1 flex items-start gap-lg">
@@ -166,7 +174,9 @@ export default async function LinterPage() {
                 </p>
                 <div className="flex items-center gap-md">
                   <LinterActions
-                    editorHref={editorHref}
+                    editorHref={
+                      editorBase ? `${editorBase}&issue=indemnity` : undefined
+                    }
                     contextTitle="Section 12 — Indemnity"
                     contextExcerpt="12.1 Provider shall indemnify, defend, and hold harmless Client from any and all claims, damages, losses, and expenses arising out of or relating to the services performed under this Agreement, regardless of whether such claims arise from the negligence of Client or any third party."
                   />
@@ -178,7 +188,7 @@ export default async function LinterPage() {
           {/* Card 3: Warning */}
           <div
             id="issue-jurisdiction"
-            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors dark:bg-white/5"
+            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors dark:bg-surface-container-lowest"
           >
             <div className="w-1 bg-tertiary-container"></div>
             <div className="p-lg flex-1 flex items-start gap-lg">
@@ -210,7 +220,9 @@ export default async function LinterPage() {
                 </p>
                 <div className="flex items-center gap-md">
                   <LinterActions
-                    editorHref={editorHref}
+                    editorHref={
+                      editorBase ? `${editorBase}&issue=jurisdiction` : undefined
+                    }
                     contextTitle="Section 18 — Dispute Resolution"
                     contextExcerpt="18.3 Any dispute arising under this Agreement shall be resolved exclusively in the local courts having jurisdiction over the parties, and each party submits to the personal jurisdiction of such courts."
                   />

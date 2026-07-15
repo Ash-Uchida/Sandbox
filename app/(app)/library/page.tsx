@@ -19,11 +19,11 @@ export default function LibraryPage() {
       </header>
 
       <div className="mx-auto w-full max-w-[1200px] space-y-lg p-lg lg:p-xl">
-        <section className="rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-lg dark:border-outline-variant/40 dark:bg-white/5">
+        <section className="rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-lg dark:border-outline-variant/40 dark:bg-surface-container-lowest">
           <h2 className="mb-1 font-display-lg text-display-lg text-on-surface dark:text-surface-bright">
             Reference materials
           </h2>
-          <p className="max-w-2xl font-body-md text-on-surface-variant dark:text-surface-variant">
+          <p className="max-w-2xl font-body-md leading-relaxed text-on-surface-variant dark:text-surface-variant">
             Curated templates and guidance. Read resources here—no redirect to the
             editor.
           </p>

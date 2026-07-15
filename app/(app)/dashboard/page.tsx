@@ -45,11 +45,11 @@ export default async function DashboardPage() {
       <div className="p-lg lg:p-xl max-w-[1200px] mx-auto w-full space-y-lg">
         {/* Hero / Quick Actions */}
         <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30 shadow-sm">
-          <div className="relative z-10">
+          <div className="relative z-10 min-w-0 flex-1">
             <h2 className="font-display-lg text-display-lg text-on-surface mb-xs">
               Welcome back, Counselor.
             </h2>
-            <p className="text-on-surface-variant font-body-md max-w-xl">
+            <p className="max-w-2xl text-on-surface-variant font-body-md leading-relaxed">
               You have{" "}
               <span className="font-semibold text-primary">
                 {stats.pendingReviews} pending{" "}
@@ -118,7 +118,12 @@ export default async function DashboardPage() {
 
         {/* AI Insight */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-lg">
-          <DashboardInsight />
+          <DashboardInsight
+            contractName={
+              contracts.find((contract) => contract.status === "at_risk")?.name ??
+              contracts[0]?.name
+            }
+          />
           <div className="lg:col-span-2 bg-surface-container-high p-lg rounded-xl relative overflow-hidden">
             <div className="relative z-10">
               <h4 className="font-headline-sm text-headline-sm text-primary mb-sm">

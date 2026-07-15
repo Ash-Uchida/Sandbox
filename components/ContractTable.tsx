@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Contract } from "@prisma/client";
+import DeleteContractButton from "@/components/DeleteContractButton";
 import { getContractStatusBadge } from "@/lib/status-badge";
 
 const dateFmt = new Intl.DateTimeFormat("en-US", {
@@ -110,13 +111,19 @@ export default function ContractTable({ contracts, query = "" }: Props) {
                       </span>
                     </td>
                     <td className="px-lg py-md text-right">
-                      <Link
-                        href={`/editor?contract=${contract.id}`}
-                        className="material-symbols-outlined text-outline hover:text-primary inline-flex"
-                        aria-label={`Open ${contract.name}`}
-                      >
-                        open_in_new
-                      </Link>
+                      <div className="inline-flex items-center gap-md">
+                        <Link
+                          href={`/editor?contract=${contract.id}`}
+                          className="material-symbols-outlined text-outline hover:text-primary inline-flex"
+                          aria-label={`Open ${contract.name}`}
+                        >
+                          open_in_new
+                        </Link>
+                        <DeleteContractButton
+                          contractId={contract.id}
+                          contractName={contract.name}
+                        />
+                      </div>
                     </td>
                   </tr>
                 );

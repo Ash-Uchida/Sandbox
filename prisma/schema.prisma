@@ -40,6 +40,8 @@ model Contract {
   owner           User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name            String
   clientId        String
+  fileName        String?
+  documentText    String?        @db.Text
   status          ContractStatus @default(draft)
   complianceScore Int?
   renewalDate     DateTime?      @db.Date

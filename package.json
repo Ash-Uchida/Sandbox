@@ -6,6 +6,7 @@
     "dev": "next dev",
     "dev:local": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/briefcaseos DIRECT_DATABASE_URL=postgresql://postgres:postgres@localhost:5432/briefcaseos next dev",
     "db:docker": "docker compose up db -d",
+    "db:migrate:local": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/briefcaseos DIRECT_DATABASE_URL=postgresql://postgres:postgres@localhost:5432/briefcaseos prisma migrate deploy",
     "build": "next build",
     "vercel-build": "node scripts/vercel-build.mjs",
     "start": "next start",

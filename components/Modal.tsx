@@ -7,10 +7,17 @@ type ModalProps = {
   open: boolean;
   onClose: () => void;
   title: string;
+  wide?: boolean;
   children: React.ReactNode;
 };
 
-export default function Modal({ open, onClose, title, children }: ModalProps) {
+export default function Modal({
+  open,
+  onClose,
+  title,
+  wide = false,
+  children,
+}: ModalProps) {
   const [mounted, setMounted] = useState(false);
   const titleId = "briefcase-modal-title";
 
@@ -54,7 +61,9 @@ export default function Modal({ open, onClose, title, children }: ModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 w-full max-w-[28rem] shrink-0 rounded-xl border border-outline-variant/40 bg-white p-6 shadow-2xl dark:border-outline-variant dark:bg-inverse-surface"
+        className={`relative z-10 w-full shrink-0 rounded-xl border border-outline-variant/40 bg-white p-6 shadow-2xl dark:border-outline-variant dark:bg-inverse-surface ${
+          wide ? "max-w-[36rem]" : "max-w-[32rem]"
+        }`}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-4 flex items-start justify-between gap-3">

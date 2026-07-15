@@ -58,7 +58,7 @@ export default function Sidebar() {
     <>
       <aside className="hidden h-screen w-[260px] shrink-0 flex-col border-r border-outline-variant/20 bg-inverse-surface py-lg dark:border-outline-variant/40 md:flex">
         <div className="mb-xl px-lg">
-          <span className="font-headline-md text-headline-md font-bold tracking-tight text-surface-container-lowest">
+          <span className="font-headline-md text-headline-md font-bold tracking-tight text-inverse-on-surface">
             BriefcaseOS
           </span>
         </div>

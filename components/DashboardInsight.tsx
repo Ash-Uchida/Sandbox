@@ -1,17 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readAiInsightsEnabled } from "@/components/NotificationSettings";
 
-export default function DashboardInsight() {
+type Props = {
+  contractName?: string | null;
+};
+
+export default function DashboardInsight({ contractName }: Props) {
   const [dismissed, setDismissed] = useState(false);
+  const [enabled, setEnabled] = useState(true);
 
-  if (dismissed) {
+  useEffect(() => {
+    setEnabled(readAiInsightsEnabled());
+  }, []);
+
+  if (dismissed || !enabled) {
     return null;
   }
 
+  const subject = contractName ?? "your portfolio";
+
   return (
-    <div className="lg:col-span-3 bg-inverse-surface text-surface p-lg rounded-xl flex flex-col justify-between">
+    <div className="lg:col-span-3 bg-inverse-surface text-inverse-on-surface p-lg rounded-xl flex flex-col justify-between">
       <div>
         <div className="flex items-center gap-sm text-tertiary-fixed mb-md">
           <span className="material-symbols-outlined">auto_awesome</span>
@@ -20,8 +32,8 @@ export default function DashboardInsight() {
         <h4 className="font-headline-md text-headline-md mb-sm">
           Unusual Liability Clause Detected
         </h4>
-        <p className="text-surface-variant font-body-md opacity-90">
-          The limitation of liability in &apos;Project Alpha&apos; exceeds standard
+        <p className="max-w-2xl text-surface-variant font-body-md leading-relaxed opacity-90">
+          The limitation of liability in &apos;{subject}&apos; exceeds standard
           industry benchmarks by 20%. Consider renegotiating the indemnity cap.
         </p>
       </div>
@@ -35,7 +47,7 @@ export default function DashboardInsight() {
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          className="border border-outline-variant text-surface px-md py-sm rounded font-label-md"
+          className="border border-outline-variant text-inverse-on-surface px-md py-sm rounded font-label-md"
         >
           Dismiss
         </button>

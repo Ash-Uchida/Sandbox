@@ -9,7 +9,7 @@ export default function EditorEmptyState() {
       <h2 className="font-headline-sm text-headline-sm text-on-surface dark:text-surface-bright">
         No contract selected
       </h2>
-      <p className="max-w-md text-body-md text-on-surface-variant dark:text-surface-variant">
+      <p className="max-w-xl text-body-md leading-relaxed text-on-surface-variant dark:text-surface-variant">
         Open a contract from the dashboard to edit it here. Each contract has its
         own document view.
       </p>

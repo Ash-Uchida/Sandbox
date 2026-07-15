@@ -41,7 +41,7 @@ export function MobileNavProvider({ children }: { children: React.ReactNode }) {
           />
           <aside className="absolute left-0 top-0 flex h-full w-[min(85vw,280px)] flex-col bg-inverse-surface py-lg shadow-xl">
             <div className="mb-lg flex items-center justify-between px-lg">
-              <span className="font-headline-md text-headline-md font-bold text-surface-container-lowest">
+              <span className="font-headline-md text-headline-md font-bold text-inverse-on-surface">
                 BriefcaseOS
               </span>
               <button

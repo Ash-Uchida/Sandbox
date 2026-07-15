@@ -9,7 +9,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="flex w-full items-center justify-between rounded-lg border border-outline-variant/30 bg-surface-container-low px-4 py-3 text-left dark:border-outline-variant/50 dark:bg-white/5"
+      className="flex w-full items-center justify-between rounded-lg border border-outline-variant/30 bg-surface-container-low px-4 py-3 text-left dark:border-outline-variant/50 dark:bg-surface-container-low"
     >
       <span className="text-sm font-semibold text-on-surface dark:text-surface-bright">
         Dark mode

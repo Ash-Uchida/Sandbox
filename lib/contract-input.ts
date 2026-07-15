@@ -4,6 +4,8 @@ export type CreateContractInput = {
   name: string;
   clientId: string;
   status?: ContractStatus;
+  fileName?: string;
+  documentText?: string;
 };
 
 const STATUSES = new Set<ContractStatus>([
@@ -19,7 +21,10 @@ export function parseCreateContractInput(body: unknown): CreateContractInput {
     throw new Error("Request body must be a JSON object.");
   }
 
-  const { name, clientId, status } = body as Record<string, unknown>;
+  const { name, clientId, status, fileName, documentText } = body as Record<
+    string,
+    unknown
+  >;
 
   if (typeof name !== "string" || !name.trim()) {
     throw new Error("Contract name is required.");
@@ -30,10 +35,22 @@ export function parseCreateContractInput(body: unknown): CreateContractInput {
   if (status !== undefined && (typeof status !== "string" || !STATUSES.has(status as ContractStatus))) {
     throw new Error("Invalid contract status.");
   }
+  if (fileName !== undefined && typeof fileName !== "string") {
+    throw new Error("Invalid file name.");
+  }
+  if (documentText !== undefined && typeof documentText !== "string") {
+    throw new Error("Invalid document text.");
+  }
 
   return {
     name: name.trim(),
     clientId: clientId.trim(),
     status: status as ContractStatus | undefined,
+    fileName:
+      typeof fileName === "string" && fileName.trim() ? fileName.trim() : undefined,
+    documentText:
+      typeof documentText === "string" && documentText.trim()
+        ? documentText.trim()
+        : undefined,
   };
 }

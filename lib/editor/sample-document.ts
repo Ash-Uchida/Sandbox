@@ -24,6 +24,18 @@ const LEASE_SAMPLE: SampleDocument = {
         "5.2 Compliance with Laws. Tenant shall, at its sole cost and expense, comply with all laws, ordinances, orders, rules and regulations having jurisdiction over the Premises.",
       ],
     },
+    {
+      title: "SECTION 12. INDEMNITY",
+      paragraphs: [
+        "12.1 Provider shall indemnify, defend, and hold harmless Client from any and all claims, damages, losses, and expenses arising out of or relating to the services performed under this Agreement, regardless of whether such claims arise from the negligence of Client or any third party.",
+      ],
+    },
+    {
+      title: "SECTION 18. DISPUTE RESOLUTION",
+      paragraphs: [
+        "18.3 Any dispute arising under this Agreement shall be resolved exclusively in the local courts having jurisdiction over the parties, and each party submits to the personal jurisdiction of such courts.",
+      ],
+    },
   ],
 };
 
@@ -44,6 +56,18 @@ const MSA_SAMPLE: SampleDocument = {
       paragraphs: [
         "5.1 Each party shall protect the other's Confidential Information using at least the same degree of care it uses for its own information.",
         "5.2 Confidential Information excludes information that becomes public through no fault of the receiving party.",
+      ],
+    },
+    {
+      title: "SECTION 12. INDEMNITY",
+      paragraphs: [
+        "12.1 Provider shall indemnify, defend, and hold harmless Client from any and all claims, damages, losses, and expenses arising out of or relating to the services performed under this Agreement, regardless of whether such claims arise from the negligence of Client or any third party.",
+      ],
+    },
+    {
+      title: "SECTION 18. DISPUTE RESOLUTION",
+      paragraphs: [
+        "18.3 Any dispute arising under this Agreement shall be resolved exclusively in the local courts having jurisdiction over the parties, and each party submits to the personal jurisdiction of such courts.",
       ],
     },
   ],
@@ -80,6 +104,18 @@ const GENERIC_SAMPLE: SampleDocument = {
         "1.2 LIMITATION OF LIABILITY. Neither party shall be liable for indirect or consequential damages. Direct liability is capped at amounts paid under this agreement in the prior twelve (12) months.",
       ],
       highlightIndex: 1,
+    },
+    {
+      title: "SECTION 12. INDEMNITY",
+      paragraphs: [
+        "12.1 Provider shall indemnify, defend, and hold harmless Client from any and all claims, damages, losses, and expenses arising out of or relating to the services performed under this Agreement, regardless of whether such claims arise from the negligence of Client or any third party.",
+      ],
+    },
+    {
+      title: "SECTION 18. DISPUTE RESOLUTION",
+      paragraphs: [
+        "18.3 Any dispute arising under this Agreement shall be resolved exclusively in the local courts having jurisdiction over the parties, and each party submits to the personal jurisdiction of such courts.",
+      ],
     },
   ],
 };
