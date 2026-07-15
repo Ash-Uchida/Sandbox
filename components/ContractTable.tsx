@@ -10,9 +10,10 @@ const dateFmt = new Intl.DateTimeFormat("en-US", {
 
 type Props = {
   contracts: Contract[];
+  query?: string;
 };
 
-export default function ContractTable({ contracts }: Props) {
+export default function ContractTable({ contracts, query = "" }: Props) {
   return (
     <section
       id="recent-contracts"
@@ -59,9 +60,15 @@ export default function ContractTable({ contracts }: Props) {
                     <span className="material-symbols-outlined text-[32px] opacity-60">
                       folder_open
                     </span>
-                    <p className="font-body-md">No contracts yet.</p>
+                    <p className="font-body-md">
+                      {query.trim()
+                        ? "No contracts match your search."
+                        : "No contracts yet."}
+                    </p>
                     <p className="text-body-sm">
-                      Upload your first contract to get started.
+                      {query.trim()
+                        ? "Try a different name or client ID."
+                        : "Upload your first contract to get started."}
                     </p>
                   </div>
                 </td>

@@ -17,6 +17,16 @@ body {
   background-color: #f7f9fc;
 }
 
+.dark body {
+  background-color: #0b1c30;
+  color: #eaf1ff;
+}
+
+.dark .app-main {
+  background-color: #0b1c30;
+  color: #eaf1ff;
+}
+
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);

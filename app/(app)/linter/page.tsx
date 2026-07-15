@@ -1,28 +1,36 @@
 import type { Metadata } from "next";
-import UserMenu from "@/components/UserMenu";
+import LinterActions from "@/components/LinterActions";
+import LinterExportButton from "@/components/LinterExportButton";
+import { MobileMenuButton } from "@/components/MobileNav";
+import { listContracts } from "@/lib/contracts";
+import { getActiveUser } from "@/lib/user";
 
 export const metadata: Metadata = {
   title: "Compliance Linter | BriefcaseOS",
 };
 
-export default function LinterPage() {
+export const dynamic = "force-dynamic";
+
+export default async function LinterPage() {
+  const user = await getActiveUser();
+  const contracts = await listContracts(user.id);
+  const focusContract =
+    contracts.find((contract) => contract.status === "at_risk") ?? contracts[0];
+  const editorHref = focusContract
+    ? `/editor?contract=${focusContract.id}`
+    : undefined;
+
   return (
-    <main className="flex-1 h-screen overflow-y-auto relative flex flex-col">
+    <main className="app-main flex h-screen flex-1 flex-col overflow-y-auto bg-surface-bright dark:bg-background">
       {/* TopAppBar (Shared Component) */}
       <header className="sticky top-0 w-full z-40 flex justify-between items-center h-[64px] px-lg bg-surface-bright/80 backdrop-blur-md border-b border-outline-variant">
-        <div className="flex items-center gap-md">
-          <button className="p-sm hover:bg-surface-container-low rounded-lg transition-colors">
-            <span className="material-symbols-outlined text-primary" data-icon="menu_open">
-              menu_open
-            </span>
-          </button>
-          <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface">
-            Compliance Audit - Master Service Agreement
+        <div className="flex items-center gap-md min-w-0">
+          <MobileMenuButton />
+          <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">
+            Compliance Audit
           </h1>
         </div>
-        <button className="bg-surface-container-low text-primary px-md py-sm rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors border border-outline-variant/30">
-          Export PDF
-        </button>
+        <LinterExportButton />
       </header>
 
       {/* Content Area */}
@@ -80,7 +88,10 @@ export default function LinterPage() {
           </div>
 
           {/* Card 1: High Risk */}
-          <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-error/50 transition-colors">
+          <div
+            id="issue-high-risk"
+            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-error/50 transition-colors dark:bg-white/5"
+          >
             <div className="w-1 bg-error"></div>
             <div className="p-lg flex-1 flex items-start gap-lg">
               <div className="mt-xs">
@@ -110,22 +121,21 @@ export default function LinterPage() {
                   precedent may invalidate the liability protections in this agreement.
                 </p>
                 <div className="flex items-center gap-md">
-                  <button className="bg-primary-container text-white px-lg py-sm rounded-lg font-label-md text-label-md flex items-center gap-sm hover:opacity-90 transition-all active:scale-95 shadow-md shadow-primary-container/20">
-                    <span className="material-symbols-outlined text-sm" data-icon="auto_fix_high">
-                      auto_fix_high
-                    </span>
-                    Auto-Fix
-                  </button>
-                  <button className="text-on-surface-variant px-md py-sm rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors">
-                    View Context
-                  </button>
+                  <LinterActions
+                    editorHref={editorHref}
+                    contextTitle="Section 4.2 — Limitation of Liability"
+                    contextExcerpt="4.2 LIMITATION OF LIABILITY. Neither Landlord nor Tenant shall be liable for any consequential, indirect, special, punitive, or exemplary damages. In no event shall Landlord's liability under this Lease exceed the total amount of rent paid by Tenant during the preceding twelve (12) month period."
+                  />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Card 2: Warning */}
-          <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors">
+          <div
+            id="issue-indemnity"
+            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors dark:bg-white/5"
+          >
             <div className="w-1 bg-tertiary-container"></div>
             <div className="p-lg flex-1 flex items-start gap-lg">
               <div className="mt-xs">
@@ -155,22 +165,21 @@ export default function LinterPage() {
                   negligent acts or omissions.
                 </p>
                 <div className="flex items-center gap-md">
-                  <button className="bg-primary-container text-white px-lg py-sm rounded-lg font-label-md text-label-md flex items-center gap-sm hover:opacity-90 transition-all active:scale-95 shadow-md shadow-primary-container/20">
-                    <span className="material-symbols-outlined text-sm" data-icon="auto_fix_high">
-                      auto_fix_high
-                    </span>
-                    Auto-Fix
-                  </button>
-                  <button className="text-on-surface-variant px-md py-sm rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors">
-                    View Context
-                  </button>
+                  <LinterActions
+                    editorHref={editorHref}
+                    contextTitle="Section 12 — Indemnity"
+                    contextExcerpt="12.1 Provider shall indemnify, defend, and hold harmless Client from any and all claims, damages, losses, and expenses arising out of or relating to the services performed under this Agreement, regardless of whether such claims arise from the negligence of Client or any third party."
+                  />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Card 3: Warning */}
-          <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors">
+          <div
+            id="issue-jurisdiction"
+            className="scroll-mt-24 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex shadow-sm group hover:border-tertiary-container/50 transition-colors dark:bg-white/5"
+          >
             <div className="w-1 bg-tertiary-container"></div>
             <div className="p-lg flex-1 flex items-start gap-lg">
               <div className="mt-xs">
@@ -200,15 +209,11 @@ export default function LinterPage() {
                   disputes.
                 </p>
                 <div className="flex items-center gap-md">
-                  <button className="bg-primary-container text-white px-lg py-sm rounded-lg font-label-md text-label-md flex items-center gap-sm hover:opacity-90 transition-all active:scale-95 shadow-md shadow-primary-container/20">
-                    <span className="material-symbols-outlined text-sm" data-icon="auto_fix_high">
-                      auto_fix_high
-                    </span>
-                    Auto-Fix
-                  </button>
-                  <button className="text-on-surface-variant px-md py-sm rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors">
-                    View Context
-                  </button>
+                  <LinterActions
+                    editorHref={editorHref}
+                    contextTitle="Section 18 — Dispute Resolution"
+                    contextExcerpt="18.3 Any dispute arising under this Agreement shall be resolved exclusively in the local courts having jurisdiction over the parties, and each party submits to the personal jurisdiction of such courts."
+                  />
                 </div>
               </div>
             </div>

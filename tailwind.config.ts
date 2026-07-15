@@ -77,6 +77,19 @@ const config: Config = {
         xl: "32px",
         sm: "8px",
       },
+      // Custom spacing above overrides Tailwind defaults; restore sensible max-widths.
+      maxWidth: {
+        sm: "24rem",
+        md: "28rem",
+        lg: "32rem",
+        xl: "36rem",
+        "2xl": "42rem",
+        "3xl": "48rem",
+        "4xl": "56rem",
+        "5xl": "64rem",
+        "6xl": "72rem",
+        "7xl": "80rem",
+      },
       fontFamily: {
         "code-sm": ["var(--font-jetbrains-mono)", "monospace"],
         "body-lg": ["var(--font-inter)", "sans-serif"],

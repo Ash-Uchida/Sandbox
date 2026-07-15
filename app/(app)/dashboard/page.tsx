@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import UserMenu from "@/components/UserMenu";
-import ContractTable from "@/components/ContractTable";
+import Link from "next/link";
 import DashboardInsight from "@/components/DashboardInsight";
+import DashboardInteractive from "@/components/DashboardInteractive";
 import UploadContractButton from "@/components/UploadContractButton";
+import { MobileMenuButton } from "@/components/MobileNav";
+import { NotificationButton } from "@/components/NotificationButton";
 import { getActiveUser } from "@/lib/user";
 import { listContracts, getDashboardStats } from "@/lib/contracts";
 
@@ -26,40 +28,23 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <main className="flex-1 h-screen overflow-y-auto relative flex flex-col">
+    <main className="app-main flex h-screen flex-1 flex-col overflow-y-auto bg-surface-bright dark:bg-background">
       {/* TopAppBar */}
-      <header className="sticky top-0 w-full z-40 flex justify-between items-center h-[64px] px-lg bg-surface-bright/80 backdrop-blur-md border-b border-outline-variant">
-        <div className="flex items-center gap-md">
-          <span className="material-symbols-outlined text-primary md:hidden">
-            menu_open
-          </span>
-          <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface">
-            Project Alpha - Master Service Agreement
+      <header className="sticky top-0 z-40 flex h-[64px] w-full items-center justify-between border-b border-outline-variant bg-surface-bright/80 px-lg backdrop-blur-md dark:border-outline-variant/40 dark:bg-background/80">
+        <div className="flex items-center gap-md min-w-0">
+          <MobileMenuButton />
+          <h1 className="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">
+            {contracts[0]?.name ?? "Project Dashboard"}
           </h1>
         </div>
-        <div className="flex items-center gap-lg">
-          <div className="hidden sm:flex items-center bg-surface-container-low px-md py-xs rounded-full border border-outline-variant/30">
-            <span className="material-symbols-outlined text-on-surface-variant text-[18px] mr-sm">
-              search
-            </span>
-            <input
-              className="bg-transparent border-none focus:ring-0 text-body-sm w-48 outline-none"
-              placeholder="Search contracts..."
-              type="text"
-            />
-          </div>
-          <div className="flex items-center gap-sm">
-            <button className="material-symbols-outlined p-xs rounded-full hover:bg-surface-container-low transition-colors">
-              notifications
-            </button>
-            <UserMenu />
-          </div>
+        <div className="flex shrink-0 items-center gap-lg">
+          <NotificationButton />
         </div>
       </header>
 
       <div className="p-lg lg:p-xl max-w-[1200px] mx-auto w-full space-y-lg">
         {/* Hero / Quick Actions */}
-        <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30 shadow-sm relative overflow-hidden">
+        <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30 shadow-sm">
           <div className="relative z-10">
             <h2 className="font-display-lg text-display-lg text-on-surface mb-xs">
               Welcome back, Counselor.
@@ -76,7 +61,6 @@ export default async function DashboardPage() {
             </p>
           </div>
           <UploadContractButton />
-          <div className="absolute right-[-5%] top-[-50%] w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
         </section>
 
         {/* Stats */}
@@ -130,7 +114,7 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        <ContractTable contracts={contracts} />
+        <DashboardInteractive contracts={contracts} />
 
         {/* AI Insight */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-lg">
@@ -141,17 +125,23 @@ export default async function DashboardPage() {
                 Library Trends
               </h4>
               <ul className="space-y-sm">
-                <li className="flex items-center gap-sm text-body-sm">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                  New GDPR Amendments (2024)
+                <li>
+                  <Link href="/library" className="flex items-center gap-sm text-body-sm hover:text-primary">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                    New GDPR Amendments (2024)
+                  </Link>
                 </li>
-                <li className="flex items-center gap-sm text-body-sm">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                  Standardized SaaS Terms
+                <li>
+                  <Link href="/library" className="flex items-center gap-sm text-body-sm hover:text-primary">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                    Standardized SaaS Terms
+                  </Link>
                 </li>
-                <li className="flex items-center gap-sm text-body-sm">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                  California Privacy Rights update
+                <li>
+                  <Link href="/library" className="flex items-center gap-sm text-body-sm hover:text-primary">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                    California Privacy Rights update
+                  </Link>
                 </li>
               </ul>
             </div>
