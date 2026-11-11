@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BriefcaseGuideWidget from "@/components/BriefcaseGuideWidget";
+import UserMenu from "@/components/UserMenu";
 
 type NavItem = {
   href: string;
@@ -14,7 +16,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Project Dashboard", icon: "dashboard", enabled: true },
   { href: "/editor", label: "Document Editor", icon: "description", enabled: true },
   { href: "/linter", label: "Compliance Linter", icon: "fact_check", enabled: true },
-  { href: "/library", label: "Legal Library", icon: "account_balance", enabled: false },
+  { href: "/library", label: "Legal Library", icon: "account_balance", enabled: true },
 ];
 
 export default function Sidebar() {
@@ -43,24 +45,47 @@ export default function Sidebar() {
     );
   };
 
-  return (
-    <aside className="hidden md:flex flex-col h-screen w-[260px] py-lg bg-inverse-surface border-r border-outline-variant/20 shrink-0">
-      <div className="px-lg mb-xl">
-        <span className="font-headline-md text-headline-md font-bold text-surface-container-lowest tracking-tight">
-          LexCursor
-        </span>
+  const footerChrome = (
+    <div className="flex flex-col items-start gap-2 px-lg pt-2">
+      <BriefcaseGuideWidget placement="sidebar" />
+      <div className="rounded-full border border-outline-variant/30 bg-surface-container-lowest/10 p-1">
+        <UserMenu />
       </div>
-      <nav className="flex-1 flex flex-col overflow-y-auto">
-        {NAV_ITEMS.map(renderItem)}
-        <div className="mt-auto">
+    </div>
+  );
+
+  return (
+    <>
+      <aside className="hidden h-screen w-[260px] shrink-0 flex-col border-r border-outline-variant/20 bg-inverse-surface py-lg dark:border-outline-variant/40 md:flex">
+        <div className="mb-xl px-lg">
+          <span className="font-headline-md text-headline-md font-bold tracking-tight text-inverse-on-surface">
+            BriefcaseOS
+          </span>
+        </div>
+        <nav className="flex flex-1 flex-col overflow-y-auto">
+          {NAV_ITEMS.map(renderItem)}
+        </nav>
+        <div className="mt-auto border-t border-outline-variant/20 pt-md">
           {renderItem({
             href: "/settings",
             label: "Settings",
             icon: "settings",
-            enabled: false,
+            enabled: true,
           })}
+          {footerChrome}
         </div>
-      </nav>
-    </aside>
+      </aside>
+
+      {/* Mobile: same controls bottom-left */}
+      <div
+        className="fixed bottom-4 left-4 z-[80] flex flex-col items-start gap-2 md:hidden"
+        aria-label="App shortcuts"
+      >
+        <BriefcaseGuideWidget placement="sidebar" />
+        <div className="rounded-full border border-outline-variant/30 bg-surface-container-lowest p-1 shadow-lg dark:bg-inverse-surface">
+          <UserMenu />
+        </div>
+      </div>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-// LexCursor data model. See docs/features/foundation/F1.2-authentication.md
+// BriefcaseOS data model. See docs/features/foundation/F1.2-authentication.md
 // and docs/features/contract-management/C2.1-contract-dashboard.md.
 
 generator client {
@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model User {
@@ -39,6 +40,8 @@ model Contract {
   owner           User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name            String
   clientId        String
+  fileName        String?
+  documentText    String?        @db.Text
   status          ContractStatus @default(draft)
   complianceScore Int?
   renewalDate     DateTime?      @db.Date

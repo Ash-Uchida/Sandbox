@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 
 async function main() {
   const demo = await prisma.user.upsert({
-    where: { email: "demo@lexcursor.test" },
+    where: { email: "demo@briefcaseos.test" },
     update: {},
-    create: { email: "demo@lexcursor.test", name: "Demo Counselor" },
+    create: { email: "demo@briefcaseos.test", name: "Demo Counselor" },
   });
 
   const existing = await prisma.contract.count({ where: { ownerId: demo.id } });

@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LexCursor",
+  title: "BriefcaseOS",
   description: "AI workspace for corporate transactional law.",
 };
 
