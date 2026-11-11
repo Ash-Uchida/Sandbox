@@ -21,9 +21,10 @@ const withClerk = clerkMiddleware(async (auth, req) => {
   }
 });
 
+// Next.js 16 renamed the `middleware` file/function convention to `proxy`.
 export default clerkConfigured
   ? withClerk
-  : function middleware() {
+  : function proxy() {
       return NextResponse.next();
     };
 
